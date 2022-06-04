@@ -1,6 +1,6 @@
 name: kdbush
 description: A very fast static spatial index for 2D points based on a flat KD-tree. A port of javascript kdbush.
-version: 0.0.1+1
+version: 0.0.2
 homepage: https://github.com/rorystephenson
 
 environment:

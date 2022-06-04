@@ -1,6 +1,7 @@
 import 'kdbush_impl.dart';
 
 class KDBush<T, U extends num> {
+  final List<T> points;
   final KDBushImpl<T, U> _kdbushImpl;
 
   /// A very fast static spatial index for 2D points based on a flat KD-tree.
@@ -8,7 +9,7 @@ class KDBush<T, U extends num> {
   ///
   /// Ported from the javascript kdbush library: https://github.com/mourner/kdbush
   KDBush({
-    required List<T> points,
+    required this.points,
     required U Function(T) getX,
     required U Function(T) getY,
     int nodeSize = 64,
