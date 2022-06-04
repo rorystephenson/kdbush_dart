@@ -14,8 +14,9 @@ List<int> rangeImpl<U extends num>(List<int> ids, List<U> coords, U minX,
       for (var i = left; i <= right; i++) {
         final x = coords[2 * i];
         final y = coords[2 * i + 1];
-        if (x >= minX && x <= maxX && y >= minY && y <= maxY)
+        if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
           result.insert(result.length, ids[i]);
+        }
       }
       continue;
     }
@@ -26,8 +27,9 @@ List<int> rangeImpl<U extends num>(List<int> ids, List<U> coords, U minX,
     // include the middle item if it's in range
     final x = coords[2 * m];
     final y = coords[2 * m + 1];
-    if (x >= minX && x <= maxX && y >= minY && y <= maxY)
+    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
       result.insert(result.length, ids[m]);
+    }
 
     // queue search in halves that intersect the query
     if (axis == 0 ? minX <= x : minY <= y) {

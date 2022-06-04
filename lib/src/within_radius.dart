@@ -13,8 +13,9 @@ List<int> withinImpl<U extends num>(
     // if we reached "tree node", search linearly
     if (right - left <= nodeSize) {
       for (var i = left; i <= right; i++) {
-        if (_sqDist(coords[2 * i], coords[2 * i + 1], qx, qy) <= r2)
+        if (_sqDist(coords[2 * i], coords[2 * i + 1], qx, qy) <= r2) {
           result.insert(result.length, ids[i]);
+        }
       }
       continue;
     }
