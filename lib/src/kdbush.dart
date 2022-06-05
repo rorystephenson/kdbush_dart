@@ -4,6 +4,9 @@ class KDBush<T, U extends num> {
   final List<T> points;
   final KDBushImpl<T, U> _kdbushImpl;
 
+  /// Length of the index
+  int get length => _kdbushImpl.ids.length;
+
   /// A very fast static spatial index for 2D points based on a flat KD-tree.
   /// Supports points only and the index cannot be modified.
   ///
