@@ -484,4 +484,25 @@ void main() {
       }
     }
   });
+
+  test('geographical radius search', () {
+    final center = [4.887437572759937, 44.93530553770042];
+    final index = KDBush<List<double>, double>(
+      points: [
+        center,
+        [4.951886676796722, 44.92043024472671],
+        [4.969545731277184, 44.91814841727268],
+      ],
+      getX: (e) => e[0],
+      getY: (e) => e[1],
+    );
+
+    final result = index.withinGeographicalRadius(
+      center[0],
+      center[1],
+      6.5,
+    );
+
+    expect(result, equals([0, 1]), reason: 'returns ids');
+  });
 }

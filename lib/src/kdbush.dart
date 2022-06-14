@@ -28,4 +28,14 @@ class KDBush<T, U extends num> {
   /// [radius] from the [x] and [y] point.
   List<int> withinRadius(num x, num y, num radius) =>
       _kdbushImpl.withinRadius(x, y, radius);
+
+  /// Returns the indexes of the input points which are within the specified
+  /// [radiusInKm] from the specified [longitude] and [latitude]. More
+  /// specifically this returns the
+  List<int> withinGeographicalRadius(
+    num longitude,
+    num latitude,
+    num radiusInKm,
+  ) =>
+      _kdbushImpl.withinGeographicalRadius(longitude, latitude, radiusInKm);
 }

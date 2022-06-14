@@ -1,3 +1,8 @@
+# 0.0.4
+
+- Add withinGeographicalRadius for calculating points within x kilometers from a given latitude and
+  longitude.
+
 # 0.0.3
 
 - Add a length getter

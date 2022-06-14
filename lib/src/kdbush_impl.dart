@@ -28,6 +28,25 @@ class KDBushImpl<T, U extends num> {
   }
 
   List<int> withinRadius(num x, num y, num radius) {
-    return withinImpl<U>(ids, coords, x, y, radius, _nodeSize);
+    return withinImpl<U>(
+      ids,
+      coords,
+      x,
+      y,
+      radius,
+      _nodeSize,
+    );
+  }
+
+  List<int> withinGeographicalRadius(num x, num y, num radiusInKm) {
+    return withinImpl<U>(
+      ids,
+      coords,
+      x,
+      y,
+      radiusInKm,
+      _nodeSize,
+      distanceInKmSpherical: true,
+    );
   }
 }
