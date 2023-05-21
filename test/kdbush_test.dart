@@ -453,7 +453,7 @@ void main() {
     }
   });
 
-  int _sqDist(List<int> a, List<int> b) {
+  int sqDist(List<int> a, List<int> b) {
     final dx = a[0] - b[0];
     final dy = a[1] - b[1];
     return dx * dx + dy * dy;
@@ -474,12 +474,12 @@ void main() {
 
     for (final id in result) {
       final p = points[id];
-      if (_sqDist(p, qp) > r2) throw 'result point not in range';
+      if (sqDist(p, qp) > r2) throw 'result point not in range';
     }
 
     for (final id in ids) {
       final p = points[id];
-      if (!result.contains(id) && _sqDist(p, qp) <= r2) {
+      if (!result.contains(id) && sqDist(p, qp) <= r2) {
         throw 'point should be in range';
       }
     }
