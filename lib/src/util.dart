@@ -1,7 +1,9 @@
 import 'dart:math';
 
-void sortImpl<U extends num>(List<int> ids, List<U> coords, int nodeSize,
-    int left, int right, int axis) {
+const rad = pi / 180;
+
+void kDSort(List<int> ids, List<num> coords, int nodeSize, int left, int right,
+    int axis) {
   if (right - left <= nodeSize) return;
 
   final m = (left + right) >> 1; // middle index
@@ -11,14 +13,20 @@ void sortImpl<U extends num>(List<int> ids, List<U> coords, int nodeSize,
   _select(ids, coords, m, left, right, axis);
 
   // recursively kd-sort first half and second half on the opposite axis
-  sortImpl(ids, coords, nodeSize, left, m - 1, 1 - axis);
-  sortImpl(ids, coords, nodeSize, m + 1, right, 1 - axis);
+  kDSort(ids, coords, nodeSize, left, m - 1, 1 - axis);
+  kDSort(ids, coords, nodeSize, m + 1, right, 1 - axis);
 }
 
-// custom Floyd-Rivest selection algorithm: sort ids and coords so that
-// [left..k-1] items are smaller than k-th item (on either x or y axis)
-void _select<U extends num>(
-    List<int> ids, List<U> coords, int k, int left, int right, int axis) {
+// Custom Floyd-Rivest selection algorithm: sort ids and coords so that
+// [left..k-1] items are smaller than k-th item (on either x or y axis).
+void _select(
+  List<int> ids,
+  List<num> coords,
+  int k,
+  int left,
+  int right,
+  int axis,
+) {
   while (right > left) {
     if (right - left > 600) {
       final n = right - left + 1;
@@ -72,4 +80,41 @@ void _swap(List arr, int i, int j) {
   final tmp = arr[i];
   arr[i] = arr[j];
   arr[j] = tmp;
+}
+
+typedef DistanceFilter = bool Function(num x1, num y1, num x2, num y2);
+
+num sqDist(num x1, num y1, num x2, num y2) {
+  final dx = x1 - x2;
+  final dy = y1 - y2;
+  return dx * dx + dy * dy;
+}
+
+DistanceFilter closeEnoughSpherical(num earthRadius, num searchRadius) =>
+    (num lng1, num lat1, num lng2, num lat2) =>
+        sphereDistance(lng1, lat1, lng2, lat2, earthRadius) <= searchRadius;
+
+DistanceFilter closeEnoughSqDist(num searchRadius) {
+  final r2 = searchRadius * searchRadius;
+  return (num x1, num y1, num x2, num y2) => sqDist(x1, y1, x2, y2) <= r2;
+}
+
+num sphereDistance(num lng1, num lat1, num lng2, num lat2, num earthRadius) {
+  final h = _haverSinDist(lng1, lat1, lng2, lat2, cos(lat1 * rad));
+  return 2 * earthRadius * asin(sqrt(h));
+}
+
+num _haverSin(num theta) {
+  final s = sin(theta / 2);
+  return s * s;
+}
+
+num _haverSinDistPartial(num haverSinDLng, num cosLat1, num lat1, num lat2) {
+  return cosLat1 * cos(lat2 * rad) * haverSinDLng +
+      _haverSin((lat1 - lat2) * rad);
+}
+
+num _haverSinDist(num lng1, num lat1, num lng2, num lat2, num cosLat1) {
+  final haverSinDLng = _haverSin((lng1 - lng2) * rad);
+  return _haverSinDistPartial(haverSinDLng, cosLat1, lat1, lat2);
 }
